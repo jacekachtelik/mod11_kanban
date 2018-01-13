@@ -16,9 +16,9 @@ const app = new Express();
 
 // Run Webpack dev server in development mode
 if (process.env.NODE_ENV === 'development') {
-  const compiler = webpack(config);
-  app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
-  app.use(webpackHotMiddleware(compiler));
+  																				                                        const compiler = webpack(config);
+  																				                                        app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
+  																				                                        app.use(webpackHotMiddleware(compiler));
 }
 
 // React And Redux Setup
@@ -32,8 +32,7 @@ import Helmet from 'react-helmet';
 // Import required modules
 import routes from '../client/routes';
 import { fetchComponentData } from './util/fetchData';
-import notes from './routes/note.routes';
-import lanes from './routes/lane.routes';
+import serverRoutes from './routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
 
@@ -56,18 +55,19 @@ app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist/client')));
-app.use('/api', lanes);
-app.use('/api', notes);
+console.log(serverRoutes);
+app.use('/api', serverRoutes.lanes);
+app.use('/api', serverRoutes.notes);
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {
-  const head = Helmet.rewind();
+const head = Helmet.rewind();
 
   // Import Manifests
-  const assetsManifest = process.env.webpackAssets && JSON.parse(process.env.webpackAssets);
-  const chunkManifest = process.env.webpackChunkAssets && JSON.parse(process.env.webpackChunkAssets);
+const assetsManifest = process.env.webpackAssets && JSON.parse(process.env.webpackAssets);
+const chunkManifest = process.env.webpackChunkAssets && JSON.parse(process.env.webpackChunkAssets);
 
-  return `
+return `
     <!doctype html>
     <html>
       <head>
@@ -98,54 +98,54 @@ const renderFullPage = (html, initialState) => {
 };
 
 const renderError = err => {
-  const softTab = '&#32;&#32;&#32;&#32;';
-  const errTrace = process.env.NODE_ENV !== 'production' ?
+  																				                                        const softTab = '&#32;&#32;&#32;&#32;';
+  																				                                        const errTrace = process.env.NODE_ENV !== 'production' ?
     `:<br><br><pre style="color:red">${softTab}${err.stack.replace(/\n/g, `<br>${softTab}`)}</pre>` : '';
-  return renderFullPage(`Server Error${errTrace}`, {});
+  																				                                        return renderFullPage(`Server Error${errTrace}`, {});
 };
 
 // Server Side Rendering based on routes matched by React-router.
 app.use((req, res, next) => {
-  match({ routes, location: req.url }, (err, redirectLocation, renderProps) => {
-    if (err) {
-      return res.status(500).end(renderError(err));
-    }
+  																				                                        match({ routes, location: req.url }, (err, redirectLocation, renderProps) => {
+    																				                                        if (err) {
+      																				                                        return res.status(500).end(renderError(err));
+                                            }
 
-    if (redirectLocation) {
-      return res.redirect(302, redirectLocation.pathname + redirectLocation.search);
-    }
+    																				                                        if (redirectLocation) {
+      																				                                        return res.redirect(302, redirectLocation.pathname + redirectLocation.search);
+                                            }
 
-    if (!renderProps) {
-      return next();
-    }
+    																				                                        if (!renderProps) {
+      																				                                        return next();
+                                            }
 
-    const store = configureStore();
+    																				                                        const store = configureStore();
 
-    return fetchComponentData(store, renderProps.components, renderProps.params)
+    																				                                        return fetchComponentData(store, renderProps.components, renderProps.params)
       .then(() => {
-        const initialView = renderToString(
+        																				                                        const initialView = renderToString(
           <Provider store={store}>
             <IntlWrapper>
               <RouterContext {...renderProps} />
             </IntlWrapper>
           </Provider>
         );
-        const finalState = store.getState();
+        																				                                        const finalState = store.getState();
 
-        res
+        																				                                        res
           .set('Content-Type', 'text/html')
           .status(200)
           .end(renderFullPage(initialView, finalState));
       })
       .catch((error) => next(error));
-  });
+                                          });
 });
 
 // start app
 app.listen(serverConfig.port, (error) => {
-  if (!error) {
+  																				                                        if (!error) {
     console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`); // eslint-disable-line
-  }
+                                          }
 });
 
 export default app;

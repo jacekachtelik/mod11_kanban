@@ -9,6 +9,9 @@ router.route('/notes').post(NoteController.addNote);
 router.route('/notes').get(NoteController.getNotes);
 
 // Delete a note by noteId
-router.route('/lanes/:laneId').delete(NoteController.deleteLane);
+router.route('/notes/:noteId').delete(NoteController.deleteNote);
+
+// Edit note by noteId
+router.route('/notes/:noteId').put(NoteController.editNote);
 
 export default router;

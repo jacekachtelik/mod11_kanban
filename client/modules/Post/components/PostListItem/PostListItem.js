@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import styles from './PostListItem.css';
 
 function PostListItem(props) {
-  return (
+  																				                                        return (
     <div className={styles['single-post']}>
       <h3 className={styles['post-title']}>
         <Link to={`/posts/${props.post.slug}-${props.post.cuid}`} >
@@ -18,18 +18,18 @@ function PostListItem(props) {
       <p className={styles['post-action']}><a href="#" onClick={props.onDelete}><FormattedMessage id="deletePost" /></a></p>
       <hr className={styles.divider} />
     </div>
-  );
+                                          );
 }
 
 PostListItem.propTypes = {
-  post: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
-    slug: PropTypes.string.isRequired,
-    cuid: PropTypes.string.isRequired,
-  }).isRequired,
-  onDelete: PropTypes.func.isRequired,
+  																				                                        post: PropTypes.shape({
+    																				                                        name: PropTypes.string.isRequired,
+    																				                                        title: PropTypes.string.isRequired,
+    																				                                        content: PropTypes.string.isRequired,
+    																				                                        slug: PropTypes.string.isRequired,
+    																				                                        cuid: PropTypes.string.isRequired,
+                                          }).isRequired,
+  																				                                        onDelete: PropTypes.func.isRequired,
 };
 
 export default PostListItem;

@@ -9,9 +9,9 @@ const posts = [
 ];
 
 test('renders the list', t => {
-  const wrapper = shallow(
+  																				                                        const wrapper = shallow(
     <PostList posts={posts} handleShowPost={() => {}} handleDeletePost={() => {}} />
   );
 
-  t.is(wrapper.find('PostListItem').length, 2);
+  																				                                        t.is(wrapper.find('PostListItem').length, 2);
 });
