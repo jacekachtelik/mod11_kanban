@@ -4,18 +4,19 @@ import * as laneActions from './LaneActions';
 import { createNote } from '../Note/NoteActions';
 
 const mapStateToProps = (state, ownProps) => {
-  																				                                        return {
-    																				                                        laneNotes: ownProps.lane.notes.map(noteId => state.notes.find(note => note.id === noteId)),
-                                          };
+    console.log('LaneContainer state', state);
+    console.log('LaneContainer ownProps', ownProps);
+    return {
+        laneNotes: ownProps.lane.notes.map(noteId => state.notes.find(note => note.id === noteId)),
+    };
 };
 
 const mapDispatchToProps = {
-  																				                                        ...laneActions,
-  																				                                        addNote: createNote,
+    ...laneActions,
+    addNote: createNote,
 };
 
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(Lane);

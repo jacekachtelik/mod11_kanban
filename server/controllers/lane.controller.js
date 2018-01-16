@@ -6,6 +6,7 @@ export function getSomething(req, res) {
 }
 
 export function getLanes(req, res) {
+    console.log('Request geLanes: ',req);
   	Lane.find().exec((err, lanes) => {
     	if (err) {
       		res.status(500).send(err);

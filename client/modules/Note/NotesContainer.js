@@ -3,10 +3,10 @@ import Notes from './Notes';
 import * as noteActions from '../Note/NoteActions';
 
 const mapDispatchToProps = {
-  																				                                        ...noteActions,
+    ...noteActions,
 };
 
 export default connect(
-  null,
-  mapDispatchToProps
+    null,
+    mapDispatchToProps
 )(Notes);
